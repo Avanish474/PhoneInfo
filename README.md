@@ -97,5 +97,30 @@ The app requires the following permissions to function properly:
 
   Note that this example only gets the information for the external storage. If you want to get the information for the internal storage, you can use the getDataDirectory() method of the Environment class instead of getExternalStorageDirectory().
   
-  
-   
+  4. ### Battery Information
+   To get the battery current charging status of an Android device in Android Studio using Java, I used the BatteryManager class.
+   ```
+      IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+      Intent batteryStatus = context.registerReceiver(null, ifilter);
+
+      // Are we charging / charged?
+      int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+      boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                           status == BatteryManager.BATTERY_STATUS_FULL;
+
+      // How are we charging?
+      int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+      boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+      boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+     ```
+     we first create an IntentFilter to listen for the ACTION_BATTERY_CHANGED intent. We then use the registerReceiver() method of the Context class to register a       receiver for this intent, passing in null as the receiver argument so that the Intent object is returned directly.
+
+   We can then extract the current battery status using the getIntExtra() method of the Intent class, passing in the EXTRA_STATUS constant of the BatteryManager class as the key. We check whether the device is charging or charged by comparing the status to the BATTERY_STATUS_CHARGING or BATTERY_STATUS_FULL constants of the BatteryManager class.
+
+   We can also extract information about how the device is charging using the getIntExtra() method, passing in the EXTRA_PLUGGED constant of the BatteryManager class as the key. We check whether the device is charging via USB or AC power by comparing the value to the BATTERY_PLUGGED_USB or BATTERY_PLUGGED_AC constants of the BatteryManager class.
+
+   Note that to use the BatteryManager class, you need to have the android.permission.BATTERY_STATS permission in your app's manifest.
+
+
+
