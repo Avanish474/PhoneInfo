@@ -1,17 +1,11 @@
 package com.example.phoneinfo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,47 +14,42 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
-import android.opengl.GLES20;
-import android.opengl.GLES32;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
-import android.renderscript.ScriptGroup;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.example.phoneinfo.databinding.ActivityMainBinding;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    DecimalFormat df = new DecimalFormat("#.000000");
     private TextView tvd;
     private ActivityMainBinding binding;
-    DecimalFormat df = new DecimalFormat("#.000000");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
 
         tvd = binding.tv;
 
 
-        tvd.setText("MANUFACTURER : "+Build.MANUFACTURER + "\n\n");
-        tvd.append("\n" +"MODEL : " + Build.MODEL+"\n\n");
-
+        tvd.setText("MANUFACTURER : " + Build.MANUFACTURER + "\n\n");
+        tvd.append("\n" + "MODEL NUMBER: " + Build.MODEL + "\n\n");
+        tvd.append("\n"+"Model NAME : "+Build.DEVICE+"\n\n");
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
         activityManager.getMemoryInfo(memoryInfo);
@@ -71,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         totalRam /= (1024 * 1024);
         availableRam /= (1024 * 1024);
-        tvd.append("\n" + "TOTAL RAM : " + totalRam + "MB"+"\n\n");
-        tvd.append("\n" + "AVAILABLE RAM : " + availableRam + "MB"+"\n\n");
+        tvd.append("\n" + "TOTAL RAM : " + totalRam + "MB" + "\n\n");
+        tvd.append("\n" + "AVAILABLE RAM : " + availableRam + "MB" + "\n\n");
 
 
         String state = Environment.getExternalStorageState();
@@ -93,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Use the values as needed
 
-            tvd.append("\n" + "TOTAL MEMORY : " + totalSize + "GB"+"\n\n");
-            tvd.append("\n" + "AVAILABLE MEMORY : " + availableSize + "GB"+"\n\n");
+            tvd.append("\n" + "TOTAL MEMORY : " + totalSize + "GB" + "\n\n");
+            tvd.append("\n" + "AVAILABLE MEMORY : " + availableSize + "GB" + "\n\n");
 
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatus = getApplicationContext().registerReceiver(null, ifilter);
@@ -116,15 +105,12 @@ public class MainActivity extends AppCompatActivity {
 // Calculate the battery percentage
             float batteryPct = level * 100 / (float) scale;
 
-            tvd.append("\n" + "CHARGING LEVEL : " + batteryPct + "%"+"\n\n");
-
-
-
+            tvd.append("\n" + "CHARGING LEVEL : " + batteryPct + "%" + "\n\n");
 
 
             String androidVersion = Build.VERSION.RELEASE;
 
-            tvd.append("\n" + "ANDROID VERSION : " + androidVersion+"\n\n");
+            tvd.append("\n" + "ANDROID VERSION : " + androidVersion + "\n\n");
 
             CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
             String[] cameraIds = new String[0];
@@ -140,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             String cameraId = cameraIds[0]; // Use first available camera
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-               requestPermissions(new String[]{android.Manifest.permission.CAMERA},121);
+                requestPermissions(new String[]{android.Manifest.permission.CAMERA}, 121);
 
             }
             try {
@@ -155,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                             float megapixels = ((characteristics.get(CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE).getWidth() *
                                     characteristics.get(CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE).getHeight()));
 
-                            tvd.append("\n"+"APERTURE : "+"f"+aperture+"\n\n");
-                            tvd.append("\n"+"MEGAPIXELS : "+megapixels+"\n");
+                            tvd.append("\n" + "APERTURE : " + "f" + aperture + "\n\n");
+                            tvd.append("\n" + "MEGAPIXELS : " + megapixels + "\n");
 
                         } catch (CameraAccessException e) {
                             e.printStackTrace();
@@ -189,10 +175,10 @@ public class MainActivity extends AppCompatActivity {
         ActivityManager activityManager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo configurationInfo = activityManager2.getDeviceConfigurationInfo();
         gpu = configurationInfo.getGlEsVersion();
-        tvd.append("\n"+"CPU INFO : "+cpu+"\n\n");
+        tvd.append("\n" + "CPU INFO : " + cpu + "\n\n");
 
 
-        tvd.append("\n"+"GPU GLE VERSION : "+gpu+"\n\n");
+        tvd.append("\n" + "GPU GLE VERSION : " + gpu + "\n\n");
 
         // get Sensor info
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -209,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 // Define a SensorEventListener to listen for sensor changes
-        if(gpsSensor!=null) {
+        if (gpsSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
@@ -218,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 
                         String value = df.format(event.values[0]);
-                        binding.gps.setText("GPS : "+value);
+                        binding.gps.setText("GPS : " + value);
                     }
                 }
 
@@ -230,20 +216,19 @@ public class MainActivity extends AppCompatActivity {
 
 // Register the listener for the sensor
             sensorManager.registerListener(sensorEventListener, gpsSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        } else {
 
             binding.gps.setVisibility(View.GONE);
         }
-        if(gyroSensor!=null) {
+        if (gyroSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
 
 
-                        String value =df.format( event.values[0]);
-                        binding.gyro.setText("GYROMETER : "+value);
+                    String value = df.format(event.values[0]);
+                    binding.gyro.setText("GYROMETER : " + value);
 
                 }
 
@@ -255,16 +240,15 @@ public class MainActivity extends AppCompatActivity {
 
 
             sensorManager.registerListener(sensorEventListener, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else binding.gyro.setVisibility(View.GONE);
+        } else binding.gyro.setVisibility(View.GONE);
 
-        if(barometerSensor!=null) {
+        if (barometerSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                        String value = df.format(event.values[0]);
-                        binding.gps.setText("BAROMETER : "+value);
+                    String value = df.format(event.values[0]);
+                    binding.gps.setText("BAROMETER : " + value);
 
                 }
 
@@ -275,17 +259,17 @@ public class MainActivity extends AppCompatActivity {
             };
 
             sensorManager.registerListener(sensorEventListener, barometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }else binding.baro.setVisibility(View.GONE);
+        } else binding.baro.setVisibility(View.GONE);
 
 
-        if(accelerometerSensor!=null) {
+        if (accelerometerSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
 
-                        String value = df.format(event.values[0]);
-                        binding.acce.setText("ACCELEROMETER : "+value);
+                    String value = df.format(event.values[0]);
+                    binding.acce.setText("ACCELEROMETER : " + value);
 
                 }
 
@@ -296,16 +280,16 @@ public class MainActivity extends AppCompatActivity {
             };
 
             sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }else binding.acce.setVisibility(View.GONE);
+        } else binding.acce.setVisibility(View.GONE);
 
-        if(rotationSensor!=null) {
+        if (rotationSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
 
-                        String value = df.format(event.values[0]);
-                        binding.rot.setText("ROTATION VECTOR : "+value);
+                    String value = df.format(event.values[0]);
+                    binding.rot.setText("ROTATION VECTOR : " + value);
 
                 }
 
@@ -317,8 +301,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             sensorManager.registerListener(sensorEventListener, rotationSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }else binding.rot.setVisibility(View.GONE);
-        if(proximitySensor!=null) {
+        } else binding.rot.setVisibility(View.GONE);
+        if (proximitySensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
@@ -326,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     String value = df.format(event.values[0]);
-                    binding.prox.setText("PROXIMITY SENSOR : "+value);
+                    binding.prox.setText("PROXIMITY SENSOR : " + value);
 
                 }
 
@@ -337,15 +321,15 @@ public class MainActivity extends AppCompatActivity {
             };
 
             sensorManager.registerListener(sensorEventListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }else binding.prox.setVisibility(View.GONE);
-        if(lightSensor!=null) {
+        } else binding.prox.setVisibility(View.GONE);
+        if (lightSensor != null) {
 
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
 
-                        String value =df.format( event.values[0]);
-                        binding.light.setText("LIGHT SENSOR : "+value);
+                    String value = df.format(event.values[0]);
+                    binding.light.setText("LIGHT SENSOR : " + value);
 
                 }
 
@@ -356,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             };
 
             sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        }else binding.light.setVisibility(View.GONE);
+        } else binding.light.setVisibility(View.GONE);
 
     }
 
@@ -364,8 +348,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==121){
-            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 121) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
             }
 
