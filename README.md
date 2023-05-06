@@ -1,5 +1,7 @@
 # PhoneInfo
 
+**apk download link-->** [apk link](https://drive.google.com/file/d/10exCiXg-nlnlv3wXPdBeU-Ih0IZLKt2F/view?usp=sharing)
+
 This Android app is developed using Java programming language in Android Studio IDE. It retrieves various device information and displays it on the app screen.
 
 ## Features
