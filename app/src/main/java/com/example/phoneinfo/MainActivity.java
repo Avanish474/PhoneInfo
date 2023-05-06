@@ -194,10 +194,10 @@ public class MainActivity extends AppCompatActivity {
 
         tvd.append("\n"+"GPU GLE VERSION : "+gpu+"\n\n");
 
-
+        // get Sensor info
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-// Get a reference to the barometer sensor
+
         Sensor gpsSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         Sensor gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -214,9 +214,9 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
+
                     if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-                        // Get the barometer reading in hPa (hectopascals)
+
                         String value = df.format(event.values[0]);
                         binding.gps.setText("GPS : "+value);
                     }
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
+// Register the listener for the sensor
             sensorManager.registerListener(sensorEventListener, gpsSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
         else {
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
+
 
                         String value =df.format( event.values[0]);
                         binding.gyro.setText("GYROMETER : "+value);
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
+
             sensorManager.registerListener(sensorEventListener, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
         else binding.gyro.setVisibility(View.GONE);
@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // C// Get the barometer reading in hPa (hectopascals)
                         String value = df.format(event.values[0]);
                         binding.gps.setText("BAROMETER : "+value);
 
@@ -275,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
             sensorManager.registerListener(sensorEventListener, barometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else binding.baro.setVisibility(View.GONE);
 
@@ -285,9 +283,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
 
-                        // Get the barometer reading in hPa (hectopascals)
                         String value = df.format(event.values[0]);
                         binding.acce.setText("ACCELEROMETER : "+value);
 
@@ -299,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
             sensorManager.registerListener(sensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else binding.acce.setVisibility(View.GONE);
 
@@ -308,9 +303,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
 
-                        // Get the barometer reading in hPa (hectopascals)
                         String value = df.format(event.values[0]);
                         binding.rot.setText("ROTATION VECTOR : "+value);
 
@@ -318,11 +311,11 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                    // Not required for this example
+
                 }
             };
 
-// Register the listener for the barometer sensor
+
             sensorManager.registerListener(sensorEventListener, rotationSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else binding.rot.setVisibility(View.GONE);
         if(proximitySensor!=null) {
@@ -330,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
+
 
                     String value = df.format(event.values[0]);
                     binding.prox.setText("PROXIMITY SENSOR : "+value);
@@ -343,7 +336,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
             sensorManager.registerListener(sensorEventListener, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else binding.prox.setVisibility(View.GONE);
         if(lightSensor!=null) {
@@ -351,7 +343,6 @@ public class MainActivity extends AppCompatActivity {
             SensorEventListener sensorEventListener = new SensorEventListener() {
                 @Override
                 public void onSensorChanged(SensorEvent event) {
-                    // Check if the event came from the barometer sensor
 
                         String value =df.format( event.values[0]);
                         binding.light.setText("LIGHT SENSOR : "+value);
@@ -364,7 +355,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-// Register the listener for the barometer sensor
             sensorManager.registerListener(sensorEventListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }else binding.light.setVisibility(View.GONE);
 
