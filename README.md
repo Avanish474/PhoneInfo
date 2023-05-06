@@ -2,7 +2,7 @@
 
 This Android app is developed using Java programming language in Android Studio IDE. It retrieves various device information and displays it on the app screen.
 
-##Features
+## Features
 The app retrieves the following device information:
 
  1. Manufacturer (e.g. Samsung, Oppo)
@@ -17,35 +17,35 @@ The app retrieves the following device information:
  10.Live Sensor reading (GPS, Gyroscope, Barometer, Accelerometer, Rotation Vector, Proximity, Ambient light sensor)
  11.IMEI
  
-##Requirements
+## Requirements
   1. Android Studio IDE
   2. Android device or emulator running Android 4.0 (API level 14) or later
 
-##Installation
+## Installation
   1. Clone or download the project files
   2. Open the project in Android Studio IDE
   3. Connect an Android device or launch an emulator
   4. Build and run the app
 
-##Usage
+## Usage
 After launching the app, the device information is automatically retrieved and displayed on the screen in a user-friendly manner.
 
-##Permissions
+## Permissions
 The app requires the following permissions to function properly:
 
   1. CAMERA: for accessing camera information
   2. READ_PHONE_STATE: for accessing IMEI number
   3. ACCESS_FINE_LOCATION: for accessing GPS sensor information
   
-##Code walthrough
+## Code walthrough
 
-1. ###Getting manufacturer and model name:
+1. ### Getting manufacturer and model name:
   ```
       String manufacturer = Build.MANUFACTURER;
       String model = Build.MODEL;
       String modelname = Build.DEVICE;
   ```   
-2. ###RAM information
+2. ### RAM information
   To get the RAM information of an Android device in Android Studio using Java, I used the ActivityManager class.
   ```
       ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -66,7 +66,7 @@ The app requires the following permissions to function properly:
 
   Keep in mind that the amount of available RAM may vary depending on the current usage of the device, so it's important to handle this value with care and not rely on it for critical app functionality.
   
- 3. ###Storage Information
+ 3. ### Storage Information
   To get the storage information of an Android device in Android Studio using Java, I used the Environment class.
   ```
     String state = Environment.getExternalStorageState();
